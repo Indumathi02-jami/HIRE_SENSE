@@ -7,13 +7,13 @@ export default {
         sans: ["'Plus Jakarta Sans'", "system-ui", "sans-serif"]
       },
       boxShadow: {
-        glow: "0 25px 60px rgba(56, 189, 248, 0.18)",
-        glass: "0 30px 80px rgba(15, 23, 42, 0.45)",
-        "glow-cyan": "0 0 20px rgba(34, 211, 238, 0.25)",
-        "glow-blue": "0 0 20px rgba(59, 130, 246, 0.25)",
-        "glow-emerald": "0 0 20px rgba(16, 185, 129, 0.25)",
-        "glow-rose": "0 0 20px rgba(244, 63, 94, 0.25)",
-        "glass-premium": "0 8px 32px 0 rgba(0, 0, 0, 0.37)"
+        glow: "0 16px 32px rgba(56, 189, 248, 0.12)",
+        glass: "0 18px 40px rgba(15, 23, 42, 0.30)",
+        "glow-cyan": "0 0 14px rgba(34, 211, 238, 0.16)",
+        "glow-blue": "0 0 14px rgba(59, 130, 246, 0.16)",
+        "glow-emerald": "0 0 14px rgba(16, 185, 129, 0.16)",
+        "glow-rose": "0 0 14px rgba(244, 63, 94, 0.16)",
+        "glass-premium": "0 8px 20px 0 rgba(0, 0, 0, 0.24)"
       },
       keyframes: {
         float: {

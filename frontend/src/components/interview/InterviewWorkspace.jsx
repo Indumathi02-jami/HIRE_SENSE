@@ -271,7 +271,7 @@ const InterviewWorkspace = () => {
             initial="initial"
             animate="animate"
             exit="exit"
-            className="grid gap-6 xl:grid-cols-[1.15fr_0.85fr]"
+            className="interview-ui grid gap-6 xl:grid-cols-[1.15fr_0.85fr]"
           >
             <motion.div
               initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, x: -18 }}
@@ -316,7 +316,7 @@ const InterviewWorkspace = () => {
                 initial="initial"
                 animate="animate"
                 exit="exit"
-                className="space-y-4 rounded-[32px] border border-cyan-500/10 bg-slate-950/40 p-6 shadow-glow backdrop-blur-2xl"
+                className="interview-glass-card space-y-4 rounded-[20px] p-6"
               >
                 <p className="text-sm font-semibold uppercase tracking-[0.35em] text-cyan-200">
                   Interview Complete

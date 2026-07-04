@@ -2,10 +2,12 @@ const InterviewSession = require("../models/InterviewSession");
 const groqService = require("./groqService");
 const {
   analyzeSpeechCommunication,
-  generateCommunicationAnalytics
+  generateCommunicationAnalytics,
+  buildInsufficientSpeechAnalysis
 } = require("./speechAnalysisService");
 const AppError = require("../utils/AppError");
 const { verifyResumeAnalysisToken } = require("../utils/resumeAnalysisToken");
+const { validateResponse } = require("../utils/responseValidation");
 
 const TOTAL_QUESTIONS = 5;
 const allowedDifficulties = ["Beginner", "Intermediate", "Advanced"];
@@ -156,19 +158,34 @@ const submitAnswer = async ({
   const answeredHistory = buildAnsweredHistory(session.qaHistory);
   const currentQuestionNumber = answeredHistory.length + 1;
 
-  const evaluation = await groqService.evaluateInterviewAnswer({
-    configuration: {
-      ...session.configuration.toObject?.() || session.configuration,
-      resumeProfile: session.resumeProfile.toObject?.() || session.resumeProfile
-    },
-    currentQuestion: pendingQuestion.question,
-    answer: cleanAnswer,
-    currentDifficulty: pendingQuestion.difficulty,
-    answeredHistory,
-    qaHistory: session.qaHistory,
-    questionNumber: currentQuestionNumber,
-    totalQuestions: TOTAL_QUESTIONS
-  });
+  const responseValidation = validateResponse(cleanAnswer);
+
+  const evaluation = responseValidation.isValid
+    ? await groqService.evaluateInterviewAnswer({
+        configuration: {
+          ...session.configuration.toObject?.() || session.configuration,
+          resumeProfile: session.resumeProfile.toObject?.() || session.resumeProfile
+        },
+        currentQuestion: pendingQuestion.question,
+        answer: cleanAnswer,
+        currentDifficulty: pendingQuestion.difficulty,
+        answeredHistory,
+        qaHistory: session.qaHistory,
+        questionNumber: currentQuestionNumber,
+        totalQuestions: TOTAL_QUESTIONS
+      })
+    : {
+        score: 0,
+        feedback:
+          "This response was too short or unclear to evaluate. Please provide a more complete answer so the interviewer can assess your reasoning.",
+        nextDifficulty: pendingQuestion.difficulty,
+        nextQuestion:
+          "Please expand your previous answer with additional detail, examples, and the reasoning behind your approach.",
+        confidenceLevel: "Low",
+        topicDepth: "Surface",
+        topicFocus: pendingQuestion.topicFocus || session.configuration.domain,
+        followUpIntent: "recover"
+      };
 
   session.qaHistory[pendingIndex].answer = cleanAnswer;
   session.qaHistory[pendingIndex].aiFeedback = evaluation.feedback;
@@ -177,14 +194,19 @@ const submitAnswer = async ({
   session.qaHistory[pendingIndex].topicDepth = evaluation.topicDepth;
   session.qaHistory[pendingIndex].confidenceLevel = evaluation.confidenceLevel;
   session.qaHistory[pendingIndex].followUpIntent = evaluation.followUpIntent;
-  session.qaHistory[pendingIndex].communicationAnalysis = analyzeSpeechCommunication({
-    transcript: communicationInput?.transcript || cleanAnswer,
-    speechDurationSeconds: communicationInput?.speechDurationSeconds || timeTaken,
-    pauseCount: communicationInput?.pauseCount || 0,
-    speechActivityRatio: communicationInput?.speechActivityRatio || 0,
-    averageVolume: communicationInput?.averageVolume || 0,
-    transcriptSource: communicationInput?.transcriptSource || "manual"
-  });
+  session.qaHistory[pendingIndex].communicationAnalysis = responseValidation.isValid
+    ? analyzeSpeechCommunication({
+        transcript: communicationInput?.transcript || cleanAnswer,
+        speechDurationSeconds: communicationInput?.speechDurationSeconds || timeTaken,
+        pauseCount: communicationInput?.pauseCount || 0,
+        speechActivityRatio: communicationInput?.speechActivityRatio || 0,
+        averageVolume: communicationInput?.averageVolume || 0,
+        transcriptSource: communicationInput?.transcriptSource || "manual"
+      })
+    : buildInsufficientSpeechAnalysis({
+        transcriptSource: communicationInput?.transcriptSource || "manual",
+        validationResult: responseValidation
+      });
   session.qaHistory[pendingIndex].timeTaken = Number(timeTaken) || 0;
 
   const hasMoreQuestions = currentQuestionNumber < TOTAL_QUESTIONS;

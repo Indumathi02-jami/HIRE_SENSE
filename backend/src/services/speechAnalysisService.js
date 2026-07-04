@@ -160,6 +160,25 @@ const analyzeSpeechCommunication = ({
   };
 };
 
+const buildInsufficientSpeechAnalysis = ({ transcriptSource = "manual", validationResult = {} } = {}) => ({
+  fillerWordCount: 0,
+  fillerWords: [],
+  hesitationCount: 0,
+  speakingSpeedWpm: 0,
+  speechDurationSeconds: 0,
+  communicationScore: 0,
+  confidenceScore: 0,
+  confidenceLevel: "Low",
+  speechActivityRatio: 0,
+  averageVolume: 0,
+  transcriptSource,
+  status: validationResult.status || "Insufficient Response",
+  reason: validationResult.reason || "Response failed validation and was not analyzed.",
+  improvementFeedback: [
+    "Your answer contained too little meaningful content to generate communication analytics. Please expand with clearer reasoning and examples."
+  ]
+});
+
 const generateCommunicationAnalytics = (qaHistory = []) => {
   const analytics = qaHistory
     .map((entry) => entry.communicationAnalysis)
@@ -216,5 +235,6 @@ const generateCommunicationAnalytics = (qaHistory = []) => {
 
 module.exports = {
   analyzeSpeechCommunication,
-  generateCommunicationAnalytics
+  generateCommunicationAnalytics,
+  buildInsufficientSpeechAnalysis
 };

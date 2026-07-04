@@ -113,6 +113,16 @@ const qaEntrySchema = new mongoose.Schema(
         default: "manual",
         trim: true
       },
+      status: {
+        type: String,
+        default: "Valid Response",
+        trim: true
+      },
+      reason: {
+        type: String,
+        default: "",
+        trim: true
+      },
       improvementFeedback: {
         type: [String],
         default: []

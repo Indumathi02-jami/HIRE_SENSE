@@ -155,7 +155,7 @@ const DashboardPage = ({ user }) => {
       transition={{ duration: 0.3 }}
       className="space-y-6"
     >
-      <section className="glass-card rounded-[32px] p-6 shadow-[0_24px_60px_rgba(2,6,23,0.26)] border border-cyan-500/10 sm:p-8">
+      <section className="clay-card rounded-[32px] p-6 shadow-[0_24px_60px_rgba(2,6,23,0.26)] sm:p-8">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.35em] text-cyan-200">
@@ -168,7 +168,7 @@ const DashboardPage = ({ user }) => {
               Review interview performance, communication growth, and skill trends from real HireSense AI sessions.
             </p>
           </div>
-          <div className="rounded-3xl border border-cyan-400/20 bg-cyan-500/10 px-5 py-4 text-sm text-cyan-200">
+          <div className="rounded-3xl px-5 py-4 text-sm text-cyan-200 clay-badge">
             <p className="text-xs uppercase tracking-[0.28em] text-cyan-200/80">Workspace Member</p>
             <p className="mt-2 font-medium">{user?.email}</p>
           </div>
@@ -326,7 +326,7 @@ const DashboardPage = ({ user }) => {
                     {item.reportId ? (
                       <Link
                         to={`/reports/${item.reportId}`}
-                        className="rounded-full border border-cyan-400/30 bg-cyan-500/10 px-4 py-2 text-xs font-semibold text-cyan-200 transition-all duration-200 hover:bg-cyan-400 hover:text-slate-950 hover:shadow-glow-cyan"
+                        className="rounded-full clay-btn-secondary px-4 py-2 text-xs font-semibold text-cyan-200 transition-all duration-200 hover:scale-[1.02]"
                       >
                         View Report
                       </Link>

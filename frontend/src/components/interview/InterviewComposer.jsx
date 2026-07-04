@@ -52,24 +52,28 @@ const InterviewComposer = ({
   };
 
   return (
-    <div className="glass-card space-y-5 rounded-[32px] p-6 shadow-[0_22px_60px_rgba(0,0,0,0.4)] border border-cyan-500/10 sm:p-7">
+    <div className="interview-glass-card space-y-6 rounded-[18px] p-6 transition-all duration-300 sm:p-7">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div>
-          <p className="text-sm font-semibold uppercase tracking-[0.35em] text-cyan-200">
+          <p className="text-sm font-semibold uppercase tracking-[0.28em] text-cyan-200">
             Response
           </p>
-          <h3 className="mt-2 text-2xl font-bold text-white">Answer thoughtfully, then continue</h3>
+          <h3 className="mt-2 text-xl font-extrabold leading-tight text-slate-50">Answer thoughtfully, then continue</h3>
         </div>
 
-        <label className="inline-flex items-center gap-2 rounded-full border border-cyan-500/10 bg-slate-950/40 px-4 py-2 text-xs font-semibold text-slate-200">
-          <input
-            type="checkbox"
-            checked={autoSubmitEnabled}
-            onChange={(event) => onToggleAutoSubmit(event.target.checked)}
-            className="h-4 w-4 rounded border-white/20 bg-white/5"
-          />
-          Auto-submit on timeout
-        </label>
+        <div className="flex items-center gap-4">
+          <div className="text-sm font-medium text-slate-300">Auto-submit on timeout</div>
+          <label className="relative inline-flex items-center cursor-pointer">
+            <input
+              type="checkbox"
+              checked={autoSubmitEnabled}
+              onChange={(event) => onToggleAutoSubmit(event.target.checked)}
+              className="sr-only peer"
+            />
+            <div className="toggle-track h-7 w-12 rounded-full bg-slate-800/60 border border-white/6 peer-checked:bg-cyan-500/30 peer-focus:ring"></div>
+            <div className="toggle-knob absolute left-0 top-0 m-1 h-5 w-5 rounded-full bg-slate-200 shadow-sm transition-transform peer-checked:translate-x-5 peer-checked:bg-cyan-200"></div>
+          </label>
+        </div>
       </div>
 
       <InterviewTimer
@@ -94,7 +98,7 @@ const InterviewComposer = ({
         value={answer}
         onChange={(event) => onAnswerChange(event.target.value)}
         placeholder="Type your answer here. Focus on clarity, structure, and technical depth."
-        className="min-h-[180px] w-full rounded-2xl border border-white/10 bg-slate-950/60 hover:border-cyan-300/25 focus:border-cyan-400/40 focus:shadow-[0_0_15px_rgba(34,211,238,0.12)] px-4 py-4 text-sm leading-7 text-white outline-none transition-all duration-300 placeholder:text-slate-500"
+        className="clay-input min-h-[180px] w-full resize-none rounded-[16px] px-5 py-5 text-sm leading-7 text-slate-100 outline-none transition-all duration-300 placeholder:text-slate-400"
       />
 
       <div className="flex flex-wrap items-center gap-3">
@@ -105,7 +109,7 @@ const InterviewComposer = ({
           transition={{ duration: 0.18 }}
           onClick={handleSubmit}
           disabled={isSubmitting}
-          className="flex h-14 items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-cyan-400 via-sky-400 to-indigo-500 px-6 text-sm font-semibold text-slate-950 shadow-[0_16px_36px_rgba(34,211,238,0.25)] hover:shadow-glow-cyan transition disabled:cursor-not-allowed disabled:opacity-70"
+          className="flex h-14 items-center justify-center gap-3 rounded-[18px] px-6 text-sm font-semibold text-slate-950 clay-btn primary-cta transition duration-300 disabled:cursor-not-allowed disabled:opacity-70"
         >
           {isSubmitting ? (
             <>
@@ -120,7 +124,7 @@ const InterviewComposer = ({
         <button
           type="button"
           onClick={onEndInterview}
-          className="h-14 rounded-2xl border border-cyan-500/10 bg-slate-950/40 px-5 text-sm font-semibold text-slate-200 transition hover:bg-slate-950/70 hover:border-cyan-400/30 hover:text-white"
+          className="h-12 rounded-[14px] clay-btn-secondary px-4 text-sm font-semibold text-slate-200 transition duration-300"
         >
           End interview
         </button>

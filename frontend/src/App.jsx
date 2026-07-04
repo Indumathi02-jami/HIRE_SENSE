@@ -4,6 +4,7 @@ import { Navigate, Outlet, Route, Routes, useLocation, useNavigate } from "react
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import InterviewWorkspace from "./components/interview/InterviewWorkspace";
 import ProfileMenu from "./components/layout/ProfileMenu";
+import Logo from "./components/layout/Logo";
 import DashboardPage from "./pages/DashboardPage";
 import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/auth/LoginPage";
@@ -34,12 +35,12 @@ const AppLayout = ({ currentUser, onLogout }) => {
 
   const isInterviewRoute = location.pathname.startsWith("/interview");
   return (
-    <main className="min-h-screen bg-hero-grid">
-      <section className={`mx-auto min-h-screen w-full px-4 py-8 sm:px-6 lg:px-8 lg:py-10 ${isInterviewRoute ? "max-w-7xl" : "max-w-6xl"}`}>
+    <main className="min-h-screen bg-slate-950 text-slate-100">
+      <section className="mx-auto min-h-screen w-full max-w-6xl px-4 py-8 sm:px-6 lg:px-8 lg:py-10">
         <header className="mb-8 flex items-center justify-between gap-4">
-          <span className="inline-flex w-fit items-center rounded-full border border-cyan-400/20 bg-cyan-400/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-cyan-200">
-            HireSense AI
-          </span>
+          <div className="flex items-center">
+            <Logo compact />
+          </div>
 
           <ProfileMenu
             user={currentUser}
@@ -58,30 +59,7 @@ const AppLayout = ({ currentUser, onLogout }) => {
         </header>
 
         {isInterviewRoute ? (
-          <div className="grid w-full gap-8 lg:grid-cols-[0.82fr_1.18fr] lg:items-center">
-            <div className="flex flex-col justify-center">
-              <h1 className="max-w-2xl text-4xl font-extrabold leading-tight text-white sm:text-5xl lg:text-6xl">
-                Adaptive AI mock interviews designed like a real technical screen
-              </h1>
-              <p className="mt-5 max-w-2xl text-base leading-7 text-slate-300 sm:text-lg">
-                Upload a resume, answer one question at a time, and let HireSense AI adapt the interview like a sharp, professional interviewer.
-              </p>
-
-              <div className="mt-8 flex flex-wrap gap-3 text-sm text-slate-300">
-                <span className="rounded-full border border-white/10 bg-white/5 px-4 py-2 backdrop-blur-xl">
-                  Adaptive follow-ups
-                </span>
-                <span className="rounded-full border border-white/10 bg-white/5 px-4 py-2 backdrop-blur-xl">
-                  Focused question flow
-                </span>
-                <span className="rounded-full border border-white/10 bg-white/5 px-4 py-2 backdrop-blur-xl">
-                  Detailed review reports
-                </span>
-              </div>
-            </div>
-
-            <InterviewWorkspace />
-          </div>
+          <InterviewWorkspace />
         ) : (
           <Outlet />
         )}
@@ -160,7 +138,7 @@ const AppRoutes = () => {
 
   if (isBootstrappingUser && hasAuthToken()) {
     return (
-      <main className="min-h-screen bg-hero-grid">
+      <main className="min-h-screen bg-slate-950 text-slate-100">
         <section className="mx-auto flex min-h-screen w-full max-w-6xl items-center justify-center px-4 py-10 sm:px-6 lg:px-8">
           <div className="h-28 w-full max-w-md animate-pulse rounded-[32px] border border-white/10 bg-white/6" />
         </section>
