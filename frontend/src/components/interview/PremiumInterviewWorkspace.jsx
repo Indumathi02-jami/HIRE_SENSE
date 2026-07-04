@@ -161,7 +161,7 @@ const PremiumInterviewWorkspace = () => {
   };
 
   const handleSkipQuestion = () => {
-    // Save empty answer and move to next
+    // Skip with empty answer - backend will handle it
     handleSubmitAnswer("");
   };
 
